@@ -33,3 +33,9 @@ Analisador Léxico
 
 Analisador Sintático
 Analisador Semântico
+
+
+Compilar
+
+g++ Tag.cpp Main.cpp -> Cria a.exe
+./a.exe

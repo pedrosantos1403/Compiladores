@@ -9,11 +9,8 @@ class Token{
         // Tag do Token é definida apenas uma vez
         int tag;
 
-        Token(int t){
-            tag = t;
-        }
+        Token(int t);
 
-        string toString(){
-            return "" + to_string(tag);
-        }
+        string toString();
+        
 };
