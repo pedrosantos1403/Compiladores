@@ -12,5 +12,14 @@ string Word::toString(){
 }
 
 
-// Definindo variáveis estáticas -> Palavras Reservadas da Linguagem
+// Atribuindo os valores para os objetos estáticos dos operadores
+Word Word::eq("==", Tag::Type::EQ);
+Word Word::gt(">", Tag::Type::GT);
+Word Word::ge(">=", Tag::Type::GE);
+Word Word::lt("<", Tag::Type::LT);
+Word Word::le("<=", Tag::Type::LE);
+Word Word::ne("!=", Tag::Type::NE);
 Word Word::_or("||", Tag::Type::OR);
+Word Word::_and("&&", Tag::Type::AND);
+
+// Atribuindo os valores para os objetos estáticos das palavras reservadas

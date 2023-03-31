@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Num::Num(int v) : Token(Tag::Type::OR){
+Num::Num(int v) : Token(Tag::Type::NUM){
     value = v;
 }
 
