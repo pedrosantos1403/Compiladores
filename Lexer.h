@@ -10,11 +10,11 @@ class Lexer{
 
         char ch = ' ';
 
-        map<Token, vector<string>> TabelaDeSimbolos;
+        map<string, Word> TabelaDeSimbolos; // Chave -> Lexema | Valor -> Token
 
         Lexer();
 
-        void reserve(Token t);
+        void addSymbol(Word w);
 
 
 };

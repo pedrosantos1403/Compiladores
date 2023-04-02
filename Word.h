@@ -23,13 +23,21 @@ class Word : public Token{
         static Word _and;
 
         // Criando os objetos Token estáticos para os operadores
-        
-
-
-
-
-
-        //Word* _and = new Word("&&", Tag::Type::AND);
-        //Word* basic = new Word("basic", Tag::Type::BASIC);
+        static Word program;
+        static Word begin;
+        static Word end;
+        static Word is;
+        static Word _int;
+        static Word _float;
+        static Word _char;
+        static Word _if;
+        static Word _then;
+        static Word _else;
+        static Word repeat;
+        static Word until;
+        static Word read;
+        static Word write;
+        static Word _while;
+        static Word _do;
 
 };

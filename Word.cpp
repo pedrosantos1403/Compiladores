@@ -23,3 +23,19 @@ Word Word::_or("||", Tag::Type::OR);
 Word Word::_and("&&", Tag::Type::AND);
 
 // Atribuindo os valores para os objetos estáticos das palavras reservadas
+Word Word::program("program", Tag::Type::PROGRAM);
+Word Word::begin("begin", Tag::Type::BEGIN);
+Word Word::end("end", Tag::Type::END);
+Word Word::is("is", Tag::Type::IS);
+Word Word::_int("int", Tag::Type::INT);
+Word Word::_float("float", Tag::Type::FLOAT);
+Word Word::_char("char", Tag::Type::CHAR);
+Word Word::_if("if", Tag::Type::IF);
+Word Word::_then("then", Tag::Type::THEN);
+Word Word::_else("else", Tag::Type::ELSE);
+Word Word::repeat("repeat", Tag::Type::REPEAT);
+Word Word::until("until", Tag::Type::UNTIL);
+Word Word::read("read", Tag::Type::READ);
+Word Word::write("write", Tag::Type::WRITE);
+Word Word::_while("while", Tag::Type::WHILE);
+Word Word::_do("do", Tag::Type::DO);

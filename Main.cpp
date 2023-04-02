@@ -35,6 +35,9 @@ int main(){
     cout << word._or.lexeme << endl;
     cout << word1._or.lexeme << endl;
     cout << r.tag << endl;
+    for(auto symbol : AnalisadorLexico.TabelaDeSimbolos){
+        cout << symbol.first << endl;
+    }
 
     return 0;
 }
