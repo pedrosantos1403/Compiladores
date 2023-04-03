@@ -37,8 +37,17 @@ class Tag{
             WRITE = 279,
 
             // Token Numérico
-            NUM = 280,
-            REAL = 281
+            NUM = 280, // integer_const
+            REAL = 281, // float_const
+
+            // Identificadores
+            ID = 282, // identifier
+
+            // Fim de arquivo
+            _EOF = 283
+            // Criar um token fim de arquivo para ser passado para o Analisador Sintático,
+            // assim este consegue saber quando a leitura acabar e chamar o método scan()
+            // enquanto ainda for possível ler o arquivo
         };
 
 };

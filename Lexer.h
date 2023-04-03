@@ -6,6 +6,9 @@ class Lexer{
 
     public:
 
+        // Leitor de Arquivo
+        ifstream file;
+
         int line = 1;
 
         char ch = ' ';
@@ -15,6 +18,11 @@ class Lexer{
         Lexer();
 
         void addSymbol(Word w);
+
+        void readch();
+        bool readch(char c);
+
+        Token scan();
 
 
 };

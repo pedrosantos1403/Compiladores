@@ -12,6 +12,7 @@ class Token{
         vector<string> infos;
 
         Token(int t);
+        Token() = default;
 
         string toString();
 
