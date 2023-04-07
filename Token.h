@@ -9,6 +9,9 @@ class Token{
         // Tag do Token é definida apenas uma vez
         int tag;
 
+        // Atributo para dizer se o token é uma palavra reservada
+        bool reserved = false;
+
         vector<string> infos;
 
         Token(int t);

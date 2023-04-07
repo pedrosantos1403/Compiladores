@@ -44,10 +44,12 @@ class Tag{
             ID = 282, // identifier
 
             // Fim de arquivo
-            _EOF = 283
-            // Criar um token fim de arquivo para ser passado para o Analisador Sintático,
-            // assim este consegue saber quando a leitura acabar e chamar o método scan()
-            // enquanto ainda for possível ler o arquivo
+            _EOF = 283,
+
+            // Outros Padrões de Tokens
+            CHAR_CONST = 284,
+            LITERAL = 285
+            
         };
 
 };

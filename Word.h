@@ -12,6 +12,8 @@ class Word : public Token{
 
         string toString();
 
+        // Talvez criar um atributo "Reservado" para indicar se o token é referente a uma palavra reservada da linguagem ou nao
+
         // Criando os objetos Token estáticos para os operadores
         static Word eq;
         static Word gt;
