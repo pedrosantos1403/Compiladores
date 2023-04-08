@@ -1,0 +1,6 @@
+-> Organizar erros léxicos
+-> Arrumar salvamento dos valores numéricos, trocar int(ch) por outra função
+   (Tokens Numéricos estão sendo salvos com o valor errado)
+-> Organizar reconhecimento de tokens numéricos (int e float)
+-> Adiconar Tokens numéricos na TS para testar se o lexema deles está sendo salvo corretamente
+-> Finalizar execução caso não consiga abrir o arquivo

@@ -16,7 +16,18 @@ int main(){
     // Chamando o Analisador Léxico até acabar o arquivo
     Token t = AnalisadorLexico.scan(); // Pegando o primeiro token
     for(; t.tag != Tag::Type::_EOF; t = AnalisadorLexico.scan()){ // Pegando o resto dos tokens
-        //cout << t.tag << endl;
+
+        // Checando se ocorrer algum erro léxico
+        if(t.tag == Tag::Type::LEXICAL_ERROR){
+            cout << "ENDING RUN DUE TO LEXICAL ERROR !!! " << endl;
+            return 0;
+        }
+    }
+
+    // Printando todos os identificadores adicionados na Tabela de Simbolos
+    cout << "Identificadores na Tabela de Simbolos: " << endl;
+    for (const auto& p : AnalisadorLexico.TabelaDeSimbolos){
+        if(p.second.reserved == false) cout << "Lexema: " << p.first << " - Tag: " << p.second.tag << endl;
     }
 
     // Printando Fim da Leitura do Arquivo

@@ -8,11 +8,12 @@ Lexer::Lexer(){
 
     // Inicializar leitor de arquivo
     file.open("Testes\\Teste1.txt");
+
     if (!file.is_open()) 
     { 
-        cerr << "Unable to open file";
+        cout  << "Unable to open file" << endl;
         // Finalizar Execução
-    }    
+    }  
 
     
     // Adicionar palavras reservadas na Tabela de Símbolos
@@ -33,13 +34,19 @@ Lexer::Lexer(){
     Word::read.reserved = true; addSymbol(Word::read.lexeme, Word::read);
     Word::write.reserved = true; addSymbol(Word::write.lexeme, Word::write);
 
+    // Printando as palavras reservadas colocadas na Tabela de Simbolos
+    cout << "Palavras Reservadas na Tabela de Simbolos:" << endl;
+    for (const auto& p : TabelaDeSimbolos){
+        if(p.second.reserved == true) cout << "Lexema: " << p.first << " - Tag: " << p.second.tag << endl;
+    }
+
 }
 
 // Inserção na Tabela de Símbolos
 void Lexer::addSymbol(string lexeme, Token t){
 
     // Imprimir Tokens na ordem de inserção na TS
-    if(t.reserved == false) { cout << "Lexema: " << lexeme << "  -  Tag: " << t.tag << endl; }
+    //if(t.reserved == false) { cout << "Lexema: " << lexeme << "  -  Tag: " << t.tag << endl; }
     TabelaDeSimbolos.insert(pair<string,Token>(lexeme, t));
 }
 
@@ -66,22 +73,29 @@ Token Lexer::scan(){
     // Checar fim de arquivo e retornar Token EOF
     if(ch == -1) { return Token(Tag::Type::_EOF); }
 
-    // TO-DO -> Desconsiderar comentários -> Talvez criar um método para isso
-    /*for(;; readch()){
-        if(ch == ' ') continue;
-        else if(ch == '/'){
-            if(readch('*')){
-                // Comentario
-                continue;
-            }
-            else return Token('/');
-        }
-    }*/
-
-    // Desconsiderar delimitadores da entrada
+    // Desconsiderar comentários e delimitadores da entrada
     for(;; readch()){
+
         if(ch == ' ' || ch == '\t') continue;
+
         else if(ch == '\n') line++;
+
+        else if(ch == 47) {
+            if(readch('*')){
+                // Início de Comentário
+                 for(;; readch()){
+                    if(ch == 42){
+                        if(readch('/')){
+                            // Fim de Comentário
+                            break;
+                        }
+                        else continue;
+                    }
+                 }
+            }
+            else break;
+        }
+
         else break;
     }
 
@@ -115,31 +129,29 @@ Token Lexer::scan(){
 
         do
         {
-
-            // DEBUG MESSAGE -> Checando o valor salvo em value
-            //cout << value << endl;
-
             value = 10 * value + int(ch); // Alterar int(ch), atualmente está pegando o valor da Tabela ASCII
-
-            // DEBUG MESSAGE -> Checando o valor salvo em value
-            //cout << value << endl;
-
             readch();
-        }
-        while(isdigit(ch));
+        } while(isdigit(ch));
 
         // Identificando um float_const
         if(ch != '.') { return Num(value); }
 
         float value_f = value; float d = 10;
-        for(;;){
-            readch();
-            if(!isdigit(ch)){
-                // Printar erro -> Erro léxico na formação de um float -> digit.digit
-                break;
-            }
-            value_f = value_f + int(ch) / d; d = d * 10;
+
+        // Lendo primeiro caractere após o ponto e checando se é um digito numérico
+        readch();
+        if(!isdigit(ch)){
+            cout << "Token mal formado na linha " << line << endl;
+            cout << "Esperado um caractere numerico depois do '.' - Encontrado: " << ch << endl;
+            return Token(Tag::Type::LEXICAL_ERROR); // Finalizar execução do programa
         }
+        value_f = value_f + int(ch) / d; d = d * 10; // Alterar int(ch), atualmente está pegando o valor da Tabela ASCII
+
+        do
+        {
+            readch();
+            value_f = value_f + int(ch) / d; d = d * 10; // Alterar int(ch), atualmente está pegando o valor da Tabela ASCII
+        } while(isdigit(ch));
 
         return Real(value_f);
 
@@ -147,8 +159,6 @@ Token Lexer::scan(){
 
     // Reconhecendo identificadores (identifier)
     if(isalpha(ch)){
-
-        //cout << "Reconhecendo Identificadores" << endl;
 
         stringstream ss;
 
@@ -188,7 +198,7 @@ Token Lexer::scan(){
         else{
             cout << "Token mal formado na linha " << line << endl;
             cout << "Esperado um caractere ASCII depois da Aspas Simples - Encontrado: " << ch << endl;
-            // Finalizar execução do programa
+            return Token(Tag::Type::LEXICAL_ERROR); // Finalizar execução do programa
         }
 
         if(ch == 39){ // Segunda Aspas simples
@@ -197,8 +207,8 @@ Token Lexer::scan(){
         }
         else{
             cout << "Token mal formado na linha " << line << endl;
-            cout << "Esperado uma Aspas Simples após o caractere ASCII - Encontrado: " << ch << endl;
-            // Finalizar execução do programa
+            cout << "Esperado uma Aspas Simples depois do caractere ASCII - Encontrado: " << ch << endl;
+            return Token(Tag::Type::LEXICAL_ERROR); // Finalizar execução do programa
         }
 
         string s = ss.str();
@@ -235,7 +245,7 @@ Token Lexer::scan(){
         else{
             cout << "Token mal formado na linha " << line << endl;
             cout << "Esperado um caractere ASCII diferente de '\n' - Encontrado: " << ch << endl;
-            // Finalizar execução do programa
+            return Token(Tag::Type::LEXICAL_ERROR); // Finalizar execução do programa
         }
 
         if(ch == 125){ // Fecha Chaves
@@ -245,7 +255,7 @@ Token Lexer::scan(){
         else{
             cout << "Token mal formado na linha " << line << endl;
             cout << "Esperado um ' } ' - Encontrado: " << ch << endl;
-            // Finalizar execução do programa
+            return Token(Tag::Type::LEXICAL_ERROR); // Finalizar execução do programa
         }
 
         string s = ss.str();

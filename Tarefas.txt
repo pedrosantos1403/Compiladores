@@ -1,6 +1,0 @@
-1 -> Reconhecer char_const (DONE)
-2 -> Reconhecer literal (DONE)
-3 -> Reconhecer Comentário
-4 -> Organizar erros léxicos
-5 -> Organizar TS para (Chave: Lexema ; Valor: Token) (DONE)
-6 -> Finalizar execução nos pontos de erro léxico

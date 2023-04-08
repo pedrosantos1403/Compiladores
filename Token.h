@@ -12,8 +12,6 @@ class Token{
         // Atributo para dizer se o token é uma palavra reservada
         bool reserved = false;
 
-        vector<string> infos;
-
         Token(int t);
         Token() = default;
 

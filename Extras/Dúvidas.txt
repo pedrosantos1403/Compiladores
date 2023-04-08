@@ -5,6 +5,4 @@
    
 -> Tem que printar as mensagens de erro de Tokens mal formados?
 
--> Tem que inserir operadores e símbolos (Ex: , ; .) na Tabela de Simbolos?
-
--> Tem que adicionar tokens numéricos na Tabela de Simbolos?
+-> Tem que inserir operadores e símbolos (Ex: , ; . * /) na Tabela de Simbolos?

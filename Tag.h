@@ -47,9 +47,12 @@ class Tag{
             _EOF = 283,
 
             // Outros Padrões de Tokens
-            CHAR_CONST = 284,
-            LITERAL = 285
-            
+            CHAR_CONST = 284, // char_const
+            LITERAL = 285, // literal
+
+            // Erro Léxico
+            LEXICAL_ERROR = 300
+
         };
 
 };
