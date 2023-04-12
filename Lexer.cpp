@@ -11,7 +11,7 @@ Lexer::Lexer(){
 
     if (!file.is_open()) 
     { 
-        cout  << "Unable to open file" << endl;
+        cout  << "UNABLE TO OPEN FILE" << endl;
         // Finalizar Execução
     }  
 
@@ -33,12 +33,6 @@ Lexer::Lexer(){
     Word::_do.reserved = true; addSymbol(Word::_do.lexeme, Word::_do);
     Word::read.reserved = true; addSymbol(Word::read.lexeme, Word::read);
     Word::write.reserved = true; addSymbol(Word::write.lexeme, Word::write);
-
-    // Printando as palavras reservadas colocadas na Tabela de Simbolos
-    cout << "Palavras Reservadas na Tabela de Simbolos:" << endl;
-    for (const auto& p : TabelaDeSimbolos){
-        if(p.second.reserved == true) cout << "Lexema: " << p.first << " - Tag: " << p.second.tag << endl;
-    }
 
 }
 
@@ -141,8 +135,8 @@ Token Lexer::scan(){
         // Lendo primeiro caractere após o ponto e checando se é um digito numérico
         readch();
         if(!isdigit(ch)){
-            cout << "Token mal formado na linha " << line << endl;
-            cout << "Esperado um caractere numerico depois do '.' - Encontrado: " << ch << endl;
+            cout << "TOKEN BADLY BUILT IN LINE " << line << endl;
+            cout << "EXPECTED A NUMERICAL CHARACTER AFTER '.' - FOUND: " << ch << endl;
             return Token(Tag::Type::LEXICAL_ERROR); // Finalizar execução do programa
         }
         value_f = value_f + int(ch) / d; d = d * 10; // Alterar int(ch), atualmente está pegando o valor da Tabela ASCII
@@ -196,8 +190,8 @@ Token Lexer::scan(){
             readch();
         }
         else{
-            cout << "Token mal formado na linha " << line << endl;
-            cout << "Esperado um caractere ASCII depois da Aspas Simples - Encontrado: " << ch << endl;
+            cout << "TOKEN BADLY BUILT IN LINE " << line << endl;
+            cout << "EXPECTED A ASCII CHARACTER AFTER ' - FOUND: " << ch << endl;
             return Token(Tag::Type::LEXICAL_ERROR); // Finalizar execução do programa
         }
 
@@ -206,8 +200,8 @@ Token Lexer::scan(){
             readch();
         }
         else{
-            cout << "Token mal formado na linha " << line << endl;
-            cout << "Esperado uma Aspas Simples depois do caractere ASCII - Encontrado: " << ch << endl;
+            cout << "TOKEN BADLY BUILT IN LINE " << line << endl;
+            cout << "EXPECTED ' AFTER THE ASCII CHARACTER - FOUND: " << ch << endl;
             return Token(Tag::Type::LEXICAL_ERROR); // Finalizar execução do programa
         }
 
@@ -243,8 +237,8 @@ Token Lexer::scan(){
             while((ch >= 32 && ch <= 255) && ch != 10);
         }
         else{
-            cout << "Token mal formado na linha " << line << endl;
-            cout << "Esperado um caractere ASCII diferente de '\n' - Encontrado: " << ch << endl;
+            cout << "TOKEN BADLY BUILT IN LINE " << line << endl;
+            cout << "EXPECTED A ASCII CHARACTER DIFFERENT THAN '\n' - FOUND: " << ch << endl;
             return Token(Tag::Type::LEXICAL_ERROR); // Finalizar execução do programa
         }
 
@@ -253,8 +247,8 @@ Token Lexer::scan(){
             readch();
         }
         else{
-            cout << "Token mal formado na linha " << line << endl;
-            cout << "Esperado um ' } ' - Encontrado: " << ch << endl;
+            cout << "TOKEN BADLY BUILT IN LINE " << line << endl;
+            cout << "EXPECTED A ' } ' - FOUND: " << ch << endl;
             return Token(Tag::Type::LEXICAL_ERROR); // Finalizar execução do programa
         }
 

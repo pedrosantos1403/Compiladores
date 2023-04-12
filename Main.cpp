@@ -24,55 +24,20 @@ int main(){
         }
     }
 
-    // Printando todos os identificadores adicionados na Tabela de Simbolos
-    cout << "Identificadores na Tabela de Simbolos: " << endl;
+    // Printando as palavras reservadas colocadas na Tabela de Simbolos
+    cout << "RESERVED WORDS IN THE SYMBOL TABLE:" << endl;
     for (const auto& p : AnalisadorLexico.TabelaDeSimbolos){
-        if(p.second.reserved == false) cout << "Lexema: " << p.first << " - Tag: " << p.second.tag << endl;
+        if(p.second.reserved == true) cout << "LEXEME: " << p.first << " - TAG: " << p.second.tag << endl;
+    }
+
+    // Printando todos os identificadores adicionados na Tabela de Simbolos
+    cout << "IDENTIFIERS IN THE SYMBOL TABLE: " << endl;
+    for (const auto& p : AnalisadorLexico.TabelaDeSimbolos){
+        if(p.second.reserved == false) cout << "LEXEME: " << p.first << " - TAG: " << p.second.tag << endl;
     }
 
     // Printando Fim da Leitura do Arquivo
-    cout << "Fim da leitura do arquivo" << endl;
-
-    // Percorrendo a TS para printar os tokes inseridos nela
-    //for(const auto& t : AnalisadorLexico.TabelaDeSimbolos){
-        //cout << "Lexema: " << t.first << "  -  Tag: " << t.second.tag << endl;
-    //}
-
-    // Lendo o arquivo que deve ser compilado
-    /*cout << "Tokens Lidos: " << endl;
-    for(Token t ;; t = AnalisadorLexico.scan()){
-        if(t.tag == Tag::_EOF) cout << "Fim de Arquvio" << endl;
-        cout << t.toString() << endl;
-    }*/
-
-    // Testes
-
-    /*Tag t;
-    Num n(10);
-    Real r(2.2);
-
-    cout << n.toString() << endl;
-    Word word("teste", Tag::Type::OR);
-    Word word1("xxxx", Tag::Type::AND);
-
-    cout << word.toString() << endl;*/
-
-    /*cout << t.AND << endl;
-    cout << n.value <<endl;
-    cout << word._or.lexeme << endl;
-    cout << word1._or.lexeme << endl;
-    cout << r.tag << endl;
-    for(auto symbol : AnalisadorLexico.TabelaDeSimbolos){
-        cout << symbol.first << endl;
-    }*/
-
-    // TO-DO
-    // Testar método scan() do Lexer
-    
-    // Testar leitura de tokens numéricos
-    // Testar leitura de tokens identificadores
-    // Testar leitura de tokens operadores
-    
+    cout << "PROGRAM SUCCESSFULY COMPILED !!!" << endl;
 
     return 0;
 }

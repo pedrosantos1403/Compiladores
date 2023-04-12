@@ -4,3 +4,4 @@
 -> Organizar reconhecimento de tokens numéricos (int e float)
 -> Adiconar Tokens numéricos na TS para testar se o lexema deles está sendo salvo corretamente
 -> Finalizar execução caso não consiga abrir o arquivo
+-> Printar a formação de todos os tokens na ordem de execução, e depois printar a Tabela de Simbolos
