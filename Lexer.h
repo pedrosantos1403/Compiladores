@@ -13,11 +13,11 @@ class Lexer{
 
         char ch = ' ';
 
-        map<string, Token> TabelaDeSimbolos; // Chave -> Lexema | Valor -> Token
+        map<string, Word> TabelaDeSimbolos; // Chave -> Lexema | Valor -> Token
 
         Lexer();
 
-        void addSymbol(string lexeme, Token t);
+        void addSymbol(string lexeme, Word w);
 
         void readch();
         bool readch(char c);

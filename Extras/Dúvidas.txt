@@ -1,8 +1,11 @@
--> É necessário guardar os Tokens numéricos, char_const e literal na TS?
-   Pois como ele possui um valor que não se altera, na próxima vez que eu ler ele no código
-   eu posso simplesmente acessar aquele valor na TS ao invés de criar um novo objeto Token.
-
-   
 -> Tem que printar as mensagens de erro de Tokens mal formados?
 
--> Tem que inserir operadores e símbolos (Ex: , ; . * /) na Tabela de Simbolos?
+-> Ao ler um identificador pela segunda vez na análise do arquivo fonte, é necessário printar o Token no terminal novamente?
+
+-> Se eu comecar um literal e nao finalizar ate o arquivo acabar eu devo printar um erro?
+
+-> Perguntar se a TS pode ser um atributo do lexer
+
+-> Devo printar um erro quando um _ está na frente de um ID ?
+
+-> Iniciar um comentario e nao fechar o mesmo comentario é um erro léxico?

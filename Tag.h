@@ -51,7 +51,8 @@ class Tag{
             LITERAL = 285, // literal
 
             // Erro Léxico
-            LEXICAL_ERROR = 300
+            LEXICAL_ERROR = 500,
+            ERROR_TO_OPEN_FILE = 501 
 
         };
 

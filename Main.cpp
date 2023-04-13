@@ -13,31 +13,37 @@ int main(){
     // Instanciar o Analisador Lexico
     Lexer AnalisadorLexico;
 
-    // Chamando o Analisador Léxico até acabar o arquivo
-    Token t = AnalisadorLexico.scan(); // Pegando o primeiro token
-    for(; t.tag != Tag::Type::_EOF; t = AnalisadorLexico.scan()){ // Pegando o resto dos tokens
+    // Chamando o Analisador Léxico até acabar o arquivo e printando os tokens encontrados
+    //cout << "TOKENS CREATED:" << endl;
+    for(Token t; t.tag != Tag::Type::_EOF; t = AnalisadorLexico.scan()){
+
+        // Checando se o arquivo fonte foi corretamente aberto
+        if(t.tag == Tag::Type::ERROR_TO_OPEN_FILE){
+            return 0;
+        }
 
         // Checando se ocorrer algum erro léxico
         if(t.tag == Tag::Type::LEXICAL_ERROR){
             cout << "ENDING RUN DUE TO LEXICAL ERROR !!! " << endl;
             return 0;
         }
+
     }
 
     // Printando as palavras reservadas colocadas na Tabela de Simbolos
-    cout << "RESERVED WORDS IN THE SYMBOL TABLE:" << endl;
+    cout << endl << "RESERVED WORDS IN THE SYMBOL TABLE:" << endl;
     for (const auto& p : AnalisadorLexico.TabelaDeSimbolos){
-        if(p.second.reserved == true) cout << "LEXEME: " << p.first << " - TAG: " << p.second.tag << endl;
+        if(p.second.reserved == true) cout << "LEXEME: " << p.first << "   TAG: " << p.second.tag << endl;
     }
 
     // Printando todos os identificadores adicionados na Tabela de Simbolos
-    cout << "IDENTIFIERS IN THE SYMBOL TABLE: " << endl;
+    cout << endl << "IDENTIFIERS IN THE SYMBOL TABLE: " << endl;
     for (const auto& p : AnalisadorLexico.TabelaDeSimbolos){
-        if(p.second.reserved == false) cout << "LEXEME: " << p.first << " - TAG: " << p.second.tag << endl;
+        if(p.second.reserved == false) cout << "LEXEME: " << p.first << "   TAG: " << p.second.tag << endl;
     }
 
     // Printando Fim da Leitura do Arquivo
-    cout << "PROGRAM SUCCESSFULY COMPILED !!!" << endl;
+    cout << endl << "PROGRAM SUCCESSFULY COMPILED !!!" << endl;
 
     return 0;
 }

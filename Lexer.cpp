@@ -12,8 +12,8 @@ Lexer::Lexer(){
     if (!file.is_open()) 
     { 
         cout  << "UNABLE TO OPEN FILE" << endl;
-        // Finalizar Execução
-    }  
+        ch = -100;
+    }
 
     
     // Adicionar palavras reservadas na Tabela de Símbolos
@@ -37,11 +37,11 @@ Lexer::Lexer(){
 }
 
 // Inserção na Tabela de Símbolos
-void Lexer::addSymbol(string lexeme, Token t){
+void Lexer::addSymbol(string lexeme, Word w){
 
     // Imprimir Tokens na ordem de inserção na TS
     //if(t.reserved == false) { cout << "Lexema: " << lexeme << "  -  Tag: " << t.tag << endl; }
-    TabelaDeSimbolos.insert(pair<string,Token>(lexeme, t));
+    TabelaDeSimbolos.insert(pair<string,Word>(lexeme, w));
 }
 
 
@@ -64,8 +64,8 @@ bool Lexer::readch(char c){
 // Método scan() para ler os caracteres do arquivo e formar os tokens
 Token Lexer::scan(){
 
-    // Checar fim de arquivo e retornar Token EOF
-    if(ch == -1) { return Token(Tag::Type::_EOF); }
+    // Falha ao abrir o arquivo
+    if(ch == -100) { return Token(Tag::Type::ERROR_TO_OPEN_FILE); }
 
     // Desconsiderar comentários e delimitadores da entrada
     for(;; readch()){
@@ -85,6 +85,11 @@ Token Lexer::scan(){
                         }
                         else continue;
                     }
+                    if (ch == -1){
+                        cout << "COMMENT WAS INITIATED BUT WAS NOT FINISHED CORRECTLY IN LINE " << line << endl;
+                        cout << "EXPECTED A ' */ ' - FOUND: EOF" << endl;
+                        return Token(Tag::Type::LEXICAL_ERROR); // Finalizar execução do programa
+                    }
                  }
             }
             else break;
@@ -93,26 +98,35 @@ Token Lexer::scan(){
         else break;
     }
 
+    // Checar fim de arquivo e retornar Token EOF
+    if(ch == -1) { return Token(Tag::Type::_EOF); }
+
     // Reconhecendo os operadores
     switch(ch){
 
         case '=':
-            if(readch('=')) return Word::eq; else return Token('='); // Criando a tag usando ASCII
+            if(readch('=')) { cout << "LEXEME: " << Word::eq.lexeme << "   TAG: " << Word::eq.tag << endl; return Word::eq; }
+            else { Word w("=", 61); cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag << endl; return w;}
 
         case '>':
-            if(readch('=')) return Word::ge; else return Word::gt;
+            if(readch('=')) { cout << "LEXEME: " << Word::ge.lexeme << "   TAG: " << Word::ge.tag << endl; return Word::ge; }
+            else { cout << "LEXEME: " << Word::gt.lexeme << "   TAG: " << Word::gt.tag << endl; return Word::gt; }
 
         case '<':
-            if(readch('=')) return Word::le; else return Word::lt;
+            if(readch('=')) { cout << "LEXEME: " << Word::le.lexeme << "   TAG: " << Word::le.tag << endl; return Word::le; }
+            else { cout << "LEXEME: " << Word::lt.lexeme << "   TAG: " << Word::lt.lexeme << endl; return Word::lt; }
 
         case '!':
-            if(readch('=')) return Word::ne; else return Token('!'); // Criando a tag usando ASCII
+            if(readch('=')) { cout << "LEXEME: " << Word::ne.lexeme << "   TAG: " << Word::ne.tag << endl; return Word::ne; }
+            else { Word w("!", 33); cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag << endl; return w; }
         
         case '|':
-            if(readch('|')) return Word::_or; else return Token('|');
+            if(readch('|')) { cout << "LEXEME: " << Word::_or.lexeme << "   TAG: " << Word::_or.tag << endl; return Word::_or; } 
+            else { Word w("|", 124); cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag << endl; return w; }
 
         case '&':
-            if(readch('&')) return Word::_and; else return Token('&');
+            if(readch('&')) { cout << "LEXEME: " << Word::_and.lexeme << "   TAG: " << Word::_and.tag << endl; return Word::_and; }
+            else { Word w("&", 38); cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag << endl; return w; }
 
     }
 
@@ -123,13 +137,18 @@ Token Lexer::scan(){
 
         do
         {
-            value = 10 * value + int(ch); // Alterar int(ch), atualmente está pegando o valor da Tabela ASCII
+            value = 10 * value + (int(ch) - 48);
             readch();
         } while(isdigit(ch));
 
-        // Identificando um float_const
-        if(ch != '.') { return Num(value); }
+        // Caso não tenha um '.' após os números o token é um integer_const
+        if(ch != '.') { 
+            Num n(value);
+            cout << "LEXEME: " << n.value << "   TAG: " << n.tag << endl;
+            return n; 
+        }
 
+        // Identificando um float_const
         float value_f = value; float d = 10;
 
         // Lendo primeiro caractere após o ponto e checando se é um digito numérico
@@ -139,15 +158,16 @@ Token Lexer::scan(){
             cout << "EXPECTED A NUMERICAL CHARACTER AFTER '.' - FOUND: " << ch << endl;
             return Token(Tag::Type::LEXICAL_ERROR); // Finalizar execução do programa
         }
-        value_f = value_f + int(ch) / d; d = d * 10; // Alterar int(ch), atualmente está pegando o valor da Tabela ASCII
 
         do
         {
+            value_f = value_f + (int(ch) - 48) / d; d = d * 10;
             readch();
-            value_f = value_f + int(ch) / d; d = d * 10; // Alterar int(ch), atualmente está pegando o valor da Tabela ASCII
         } while(isdigit(ch));
 
-        return Real(value_f);
+        Real r(value_f);
+        cout << "LEXEME: " << r.value << "   TAG: " << r.tag << endl;
+        return r;
 
     }
 
@@ -167,11 +187,15 @@ Token Lexer::scan(){
         auto it = TabelaDeSimbolos.find(s);
         
         // Identificador já lido anteriormente
-        if(it != TabelaDeSimbolos.end()) return it->second;
+        if(it != TabelaDeSimbolos.end()){
+            cout << "LEXEME: " << it->first << "   TAG: " << it->second.tag << endl;
+            return it->second;
+        }
 
         // Identificador novo
         Word w(s, Tag::ID);
         addSymbol(w.lexeme, w);
+        cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag << endl;
         return w;
 
     }
@@ -185,7 +209,7 @@ Token Lexer::scan(){
         readch();
 
         // Checar se o caractere lido está na tabela ASCII
-        if(ch >= 32 && ch <= 255){
+        if(ch >= 0 && ch <= 255){
             ss << ch;
             readch();
         }
@@ -206,21 +230,14 @@ Token Lexer::scan(){
         }
 
         string s = ss.str();
-
-        auto it = TabelaDeSimbolos.find(s);
-        
-        // Char_const já lido anteriormente
-        if(it != TabelaDeSimbolos.end()) return it->second;
-
-        // Char_const novo
         Word w(s, Tag::CHAR_CONST);
-        addSymbol(w.lexeme, w);
+        cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag << endl;
         return w;
 
     }
 
     // Reconhecendo Literal
-    if(ch == 123){ // Abre Chaves
+    if(ch == 123){ // Abre Colchete
 
         stringstream ss;
 
@@ -228,46 +245,38 @@ Token Lexer::scan(){
         readch();
 
         // Checar se o caractere lido está na tabela ASCII e é diferente de '\n'
-        if((ch >= 32 && ch <= 255) && ch != 10){
-            do{
-                if(ch == 125) { break; }
-                ss << ch;
-                readch();
+        do{
+            if( ch < 0 || ch > 255 || ch == 10){ // Caso o caractere lido não seja ASCII ou seja '\n'
+                cout << "TOKEN BADLY BUILT IN LINE " << line << endl;
+                if(ch == 10) cout << "EXPECTED A ASCII CHARACTER DIFFERENT THAN '\\n' - FOUND: '\\n'" << endl;
+                else cout << "EXPECTED A ASCII CHARACTER DIFFERENT THAN '\\n' - FOUND: " << ch << endl;
+                return Token(Tag::Type::LEXICAL_ERROR); // Finalizar execução do programa
             }
-            while((ch >= 32 && ch <= 255) && ch != 10);
-        }
-        else{
-            cout << "TOKEN BADLY BUILT IN LINE " << line << endl;
-            cout << "EXPECTED A ASCII CHARACTER DIFFERENT THAN '\n' - FOUND: " << ch << endl;
-            return Token(Tag::Type::LEXICAL_ERROR); // Finalizar execução do programa
-        }
-
-        if(ch == 125){ // Fecha Chaves
             ss << ch;
             readch();
         }
-        else{
+        while(ch != 125 && ch != -1);
+
+        if(ch == 125){ // Fecha Colchete
+            ss << ch;
+            readch();
+        }
+        else if(ch == -1){ // O token literal foi iniciado porém não foi finalizado
             cout << "TOKEN BADLY BUILT IN LINE " << line << endl;
-            cout << "EXPECTED A ' } ' - FOUND: " << ch << endl;
+            cout << "EXPECTED A ' } ' - FOUND: EOF" << endl;
             return Token(Tag::Type::LEXICAL_ERROR); // Finalizar execução do programa
         }
 
         string s = ss.str();
-
-        auto it = TabelaDeSimbolos.find(s);
-        
-        // Literal já lido anteriormente
-        if(it != TabelaDeSimbolos.end()) return it->second;
-
-        // Char_const novo
         Word w(s, Tag::LITERAL);
-        addSymbol(w.lexeme, w);
+        cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag << endl;
         return w;
 
     }
 
     // Reconhecendo os caracteres remanescentes
     Token t(ch);
+    cout << "LEXEME: " << ch << "   TAG: " << t.tag << endl;
     readch();
     return t;
 }
