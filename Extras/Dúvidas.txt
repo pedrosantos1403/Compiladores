@@ -1,4 +1,0 @@
--> A barra (/) pode ser um operador de divisão, porém o (//) que na teoria seria um comentário de uma linha, não está sendo reconhecido como erro léxico, deveria ser?
-
-
-

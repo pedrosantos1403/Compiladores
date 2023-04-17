@@ -1,1 +1,0 @@
--> Checar se quando ocorre uma / o analisador reconhece a / como token, parece estar reconhecendo 32 ao invés de /
