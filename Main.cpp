@@ -14,7 +14,6 @@ int main(){
     Lexer AnalisadorLexico;
 
     // Chamando o Analisador Léxico até acabar o arquivo e printando os tokens encontrados
-    //cout << "TOKENS CREATED:" << endl;
     for(Token t; t.tag != Tag::Type::_EOF; t = AnalisadorLexico.scan()){
 
         // Checando se o arquivo fonte foi corretamente aberto
@@ -43,7 +42,7 @@ int main(){
     }
 
     // Printando Fim da Leitura do Arquivo
-    cout << endl << "PROGRAM SUCCESSFULY COMPILED !!!" << endl;
+    cout << endl << "LEXICAL ANALYSIS COMPLETE !!!" << endl;
 
     return 0;
 }

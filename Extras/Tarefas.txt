@@ -1,1 +1,1 @@
--> Arrumar o reconhecimento de comentário para retornar um erro caso o comentário seja iniciado e nao seja fechado
+-> Checar se quando ocorre uma / o analisador reconhece a / como token, parece estar reconhecendo 32 ao invés de /

@@ -6,8 +6,8 @@ using namespace std;
 // Construtor
 Lexer::Lexer(){
 
-    // Inicializar leitor de arquivo
-    file.open("Testes\\Teste1.txt");
+    // Inicializar leitor de arquivo -> Trocar caminho para cada arquivo de teste
+    file.open("Testes\\Teste7.txt");
 
     if (!file.is_open()) 
     { 
@@ -38,9 +38,6 @@ Lexer::Lexer(){
 
 // Inserção na Tabela de Símbolos
 void Lexer::addSymbol(string lexeme, Word w){
-
-    // Imprimir Tokens na ordem de inserção na TS
-    //if(t.reserved == false) { cout << "Lexema: " << lexeme << "  -  Tag: " << t.tag << endl; }
     TabelaDeSimbolos.insert(pair<string,Word>(lexeme, w));
 }
 
@@ -92,7 +89,11 @@ Token Lexer::scan(){
                     }
                  }
             }
-            else break;
+            else{ // REVISAR!!!
+                Word w("/", 47);
+                cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag << endl;
+                return w;
+            }
         }
 
         else break;
@@ -236,7 +237,7 @@ Token Lexer::scan(){
 
     }
 
-    // Reconhecendo Literal
+    // Reconhecendo literal
     if(ch == 123){ // Abre Colchete
 
         stringstream ss;

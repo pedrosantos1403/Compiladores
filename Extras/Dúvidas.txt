@@ -1,11 +1,4 @@
--> Tem que printar as mensagens de erro de Tokens mal formados?
+-> A barra (/) pode ser um operador de divisão, porém o (//) que na teoria seria um comentário de uma linha, não está sendo reconhecido como erro léxico, deveria ser?
 
--> Ao ler um identificador pela segunda vez na análise do arquivo fonte, é necessário printar o Token no terminal novamente?
 
--> Se eu comecar um literal e nao finalizar ate o arquivo acabar eu devo printar um erro?
 
--> Perguntar se a TS pode ser um atributo do lexer
-
--> Devo printar um erro quando um _ está na frente de um ID ?
-
--> Iniciar um comentario e nao fechar o mesmo comentario é um erro léxico?

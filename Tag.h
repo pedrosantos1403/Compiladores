@@ -52,6 +52,8 @@ class Tag{
 
             // Erro Léxico
             LEXICAL_ERROR = 500,
+
+            // Erro de Arquivo
             ERROR_TO_OPEN_FILE = 501 
 
         };

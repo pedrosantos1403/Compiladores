@@ -21,4 +21,4 @@ begin
  write({Disponibilidade do candidato: });
  read(disponibilidade);
  end
-end
+end*/
