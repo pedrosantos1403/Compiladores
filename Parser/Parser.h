@@ -1,10 +1,4 @@
 #include <bits/stdc++.h>
-#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Tag.h>
-#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Token.cpp>
-#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Num.cpp>
-#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Real.cpp>
-#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Word.cpp>
-#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Lexer.cpp>
 
 using namespace std;
 
@@ -13,15 +7,22 @@ class Parser{
     public:
 
         // Atributos
-        Lexer AnalisadorLexico;
+        Lexer *AnalisadorLexico;
         Token tok;
+        Token last_token; // Salva o ultimo token analisado para fins de tratamento de erros no main()
 
         // Criar um metodo que inicia a execucao do parser
         // Criar um metodo de erro que trate todos os erros
 
+        // Construtor
+        Parser() = default;
+        Parser(Lexer *AnalisadorLexico);
+
         // Métodos
         void advance();
         void eat(int t);
+        void error(vector<int> expected);
+        void init();
 
         // Métodos (Não Terminais)
         void program();

@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Token.h>
+#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Lexer\Token.h>
 
 using namespace std;
 

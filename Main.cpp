@@ -1,10 +1,11 @@
 #include <bits/stdc++.h>
-#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Tag.h>
-#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Token.cpp>
-#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Num.cpp>
-#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Real.cpp>
-#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Word.cpp>
-#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Lexer.cpp>
+#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Lexer\Tag.h>
+#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Lexer\Token.cpp>
+#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Lexer\Num.cpp>
+#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Lexer\Real.cpp>
+#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Lexer\Word.cpp>
+#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Lexer\Lexer.cpp>
+#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Parser\Parser.cpp>
 
 using namespace std;
 
@@ -14,7 +15,7 @@ int main(){
     Lexer AnalisadorLexico;
 
     // Chamando o Analisador Léxico até acabar o arquivo e printando os tokens encontrados
-    for(Token t; t.tag != Tag::Type::_EOF; t = AnalisadorLexico.scan()){
+    /*for(Token t; t.tag != Tag::Type::_EOF; t = AnalisadorLexico.scan()){
 
         // Checando se o arquivo fonte foi corretamente aberto
         if(t.tag == Tag::Type::ERROR_TO_OPEN_FILE){
@@ -27,10 +28,10 @@ int main(){
             return 0;
         }
 
-    }
+    }*/
 
     // Printando as palavras reservadas colocadas na Tabela de Simbolos
-    cout << endl << "RESERVED WORDS IN THE SYMBOL TABLE:" << endl;
+    /*cout << endl << "RESERVED WORDS IN THE SYMBOL TABLE:" << endl;
     for (const auto& p : AnalisadorLexico.TabelaDeSimbolos){
         if(p.second.reserved == true) cout << "LEXEME: " << p.first << "   TAG: " << p.second.tag << endl;
     }
@@ -42,7 +43,15 @@ int main(){
     }
 
     // Printando Fim da Leitura do Arquivo
-    cout << endl << "LEXICAL ANALYSIS COMPLETE !!!" << endl;
+    cout << endl << "LEXICAL ANALYSIS COMPLETE !!!" << endl;*/
+
+
+    // Testes Analisador Sintático
+
+    // Instanciar o Analisador Sintatico
+    Parser AnalisadorSintatico(&AnalisadorLexico);
+
+    AnalisadorSintatico.init();
 
     return 0;
 }

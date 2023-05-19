@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Real.h>
+#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Lexer\Real.h>
 
 using namespace std;
 

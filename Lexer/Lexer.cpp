@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Lexer.h>
+#include <C:\Users\pedro\OneDrive\Documentos\CEFETMG\2023.1\Compiladores\Compilador - Trabalho\Lexer\Lexer.h>
 
 using namespace std;
 
@@ -7,7 +7,7 @@ using namespace std;
 Lexer::Lexer(){
 
     // Inicializar leitor de arquivo -> Trocar caminho para cada arquivo de teste
-    file.open("Testes\\Teste7.txt");
+    file.open("Testes\\TesteParser1.txt");
 
     if (!file.is_open()) 
     { 
@@ -89,7 +89,7 @@ Token Lexer::scan(){
                     }
                  }
             }
-            else{ // REVISAR!!!
+            else{
                 Word w("/", 47);
                 cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag << endl;
                 return w;
@@ -247,7 +247,7 @@ Token Lexer::scan(){
 
         // Checar se o caractere lido está na tabela ASCII e é diferente de '\n'
         do{
-            if( ch < 0 || ch > 255 || ch == 10){ // Caso o caractere lido não seja ASCII ou seja '\n'
+            if(ch < 0 || ch > 255 || ch == 10){ // Caso o caractere lido não seja ASCII ou seja '\n'
                 cout << "TOKEN BADLY BUILT IN LINE " << line << endl;
                 if(ch == 10) cout << "EXPECTED A ASCII CHARACTER DIFFERENT THAN '\\n' - FOUND: '\\n'" << endl;
                 else cout << "EXPECTED A ASCII CHARACTER DIFFERENT THAN '\\n' - FOUND: " << ch << endl;
