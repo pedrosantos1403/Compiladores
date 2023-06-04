@@ -1,0 +1,22 @@
+/* Teste */
+program teste6
+
+ x, y is int;
+
+ duda is char;
+
+/* comentário 1*/
+
+begin
+ repeat
+ write(x);
+ read(x);
+ 
+ if (x) then
+ maior = a
+ end
+ 
+/* comentário 2*/
+
+until(x > 10)
+end.

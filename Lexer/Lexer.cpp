@@ -7,7 +7,7 @@ using namespace std;
 Lexer::Lexer(){
 
     // Inicializar leitor de arquivo -> Trocar caminho para cada arquivo de teste
-    file.open("Testes\\TesteParser1.txt");
+    file.open("Testes\\TesteParser7.txt");
 
     if (!file.is_open()) 
     { 
@@ -91,7 +91,7 @@ Token Lexer::scan(){
             }
             else{
                 Word w("/", 47);
-                cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag << endl;
+                //cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag;
                 return w;
             }
         }
@@ -106,28 +106,28 @@ Token Lexer::scan(){
     switch(ch){
 
         case '=':
-            if(readch('=')) { cout << "LEXEME: " << Word::eq.lexeme << "   TAG: " << Word::eq.tag << endl; return Word::eq; }
-            else { Word w("=", 61); cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag << endl; return w;}
+            if(readch('=')) { return Word::eq; }
+            else { Word w("=", 61); return w;}
 
         case '>':
-            if(readch('=')) { cout << "LEXEME: " << Word::ge.lexeme << "   TAG: " << Word::ge.tag << endl; return Word::ge; }
-            else { cout << "LEXEME: " << Word::gt.lexeme << "   TAG: " << Word::gt.tag << endl; return Word::gt; }
+            if(readch('=')) { return Word::ge; }
+            else { return Word::gt; }
 
         case '<':
-            if(readch('=')) { cout << "LEXEME: " << Word::le.lexeme << "   TAG: " << Word::le.tag << endl; return Word::le; }
-            else { cout << "LEXEME: " << Word::lt.lexeme << "   TAG: " << Word::lt.lexeme << endl; return Word::lt; }
+            if(readch('=')) { return Word::le; }
+            else { return Word::lt; }
 
         case '!':
-            if(readch('=')) { cout << "LEXEME: " << Word::ne.lexeme << "   TAG: " << Word::ne.tag << endl; return Word::ne; }
-            else { Word w("!", 33); cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag << endl; return w; }
+            if(readch('=')) { return Word::ne; }
+            else { Word w("!", 33); return w; }
         
         case '|':
-            if(readch('|')) { cout << "LEXEME: " << Word::_or.lexeme << "   TAG: " << Word::_or.tag << endl; return Word::_or; } 
-            else { Word w("|", 124); cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag << endl; return w; }
+            if(readch('|')) { return Word::_or; } 
+            else { Word w("|", 124); return w; }
 
         case '&':
-            if(readch('&')) { cout << "LEXEME: " << Word::_and.lexeme << "   TAG: " << Word::_and.tag << endl; return Word::_and; }
-            else { Word w("&", 38); cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag << endl; return w; }
+            if(readch('&')) { return Word::_and; }
+            else { Word w("&", 38); return w; }
 
     }
 
@@ -145,7 +145,7 @@ Token Lexer::scan(){
         // Caso não tenha um '.' após os números o token é um integer_const
         if(ch != '.') { 
             Num n(value);
-            cout << "LEXEME: " << n.value << "   TAG: " << n.tag << endl;
+            //cout << "LEXEME: " << n.value << "   TAG: " << n.tag;
             return n; 
         }
 
@@ -167,7 +167,7 @@ Token Lexer::scan(){
         } while(isdigit(ch));
 
         Real r(value_f);
-        cout << "LEXEME: " << r.value << "   TAG: " << r.tag << endl;
+        //cout << "LEXEME: " << r.value << "   TAG: " << r.tag;
         return r;
 
     }
@@ -189,14 +189,14 @@ Token Lexer::scan(){
         
         // Identificador já lido anteriormente
         if(it != TabelaDeSimbolos.end()){
-            cout << "LEXEME: " << it->first << "   TAG: " << it->second.tag << endl;
+            //cout << "LEXEME: " << it->first << "   TAG: " << it->second.tag;
             return it->second;
         }
 
         // Identificador novo
         Word w(s, Tag::ID);
         addSymbol(w.lexeme, w);
-        cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag << endl;
+        //cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag;
         return w;
 
     }
@@ -232,7 +232,7 @@ Token Lexer::scan(){
 
         string s = ss.str();
         Word w(s, Tag::CHAR_CONST);
-        cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag << endl;
+        //cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag;
         return w;
 
     }
@@ -270,14 +270,14 @@ Token Lexer::scan(){
 
         string s = ss.str();
         Word w(s, Tag::LITERAL);
-        cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag << endl;
+        //cout << "LEXEME: " << w.lexeme << "   TAG: " << w.tag;
         return w;
 
     }
 
     // Reconhecendo os caracteres remanescentes
     Token t(ch);
-    cout << "LEXEME: " << ch << "   TAG: " << t.tag << endl;
+    //cout << "LEXEME: " << ch << "   TAG: " << t.tag;
     readch();
     return t;
 }

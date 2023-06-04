@@ -53,8 +53,11 @@ class Tag{
             // Erro Léxico
             LEXICAL_ERROR = 500,
 
+            // Erro Sintático
+            SYNTACTICAL_ERROR = 501,
+
             // Erro de Arquivo
-            ERROR_TO_OPEN_FILE = 501 
+            ERROR_TO_OPEN_FILE = 777 
 
         };
 

@@ -1,0 +1,15 @@
+program teste7
+ 
+ a, b is int; /*variavel a*/ /*varialvel b*/
+ c is float; /*variavel c*/
+begin
+ a = 1;
+ c = 1.0;
+ read( a );
+
+ c = b + 5.2;
+
+ write ({c: });
+ write (c)
+
+end.

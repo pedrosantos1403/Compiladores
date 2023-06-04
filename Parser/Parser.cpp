@@ -9,12 +9,17 @@ void Parser::advance(){
 
     // Pegando o próximo Token
     tok = Parser::AnalisadorLexico->scan();
-    
-    // DEBUG
-    cout << "PARSER: " << tok.tag << endl;
 
     // Tratar erro de abertura de arquivo
+    if(tok.tag == Tag::Type::ERROR_TO_OPEN_FILE){
+        exit(0);
+    }
+
     // Tratar erro lexico
+    if(tok.tag == Tag::Type::LEXICAL_ERROR){
+        cout << "ENDING RUN DUE TO LEXICAL ERROR !!! " << endl;
+        exit(0);
+    }
 
 }
 
@@ -26,17 +31,21 @@ void Parser::eat(int t){
     // Se o Token lido náo for o Token esperado lançar um erro
     else{
         //ERRO SINTÁTICO
-        cout << "Syntactical Error (EAT) -> Expected tag(s) " << t << " but found tag " << tok.tag << endl;
+        cout << "Syntactical Error in line "<< Parser::AnalisadorLexico->line
+        << " -> Expected tag(s) " << t << " but found tag " << tok.tag << "   : (eat()) " << endl;
+        exit(0);
     }
 
 }
 
 void Parser::error(vector<int> e){
-    cout << "Syntactical Error (ERROR) -> Expected tag(s) ";
+    cout << "Syntactical Error in line " << Parser::AnalisadorLexico->line
+    << " -> Expected tag(s) ";
     for (const auto& tag : e){
         cout << tag << " ";
     }
-    cout << "but found tag " << tok.tag << endl;
+    cout << "but found tag " << tok.tag << "   : (error()) " <<  endl;
+    exit(0);
 }
 
 void Parser::init(){
@@ -46,10 +55,9 @@ void Parser::init(){
 
     // Checar se o Token neste ponto do fluxo é EOF
     if (tok.tag == Tag::Type::_EOF) cout << "Syntactical Analysis Complete !!!" << endl;
-    else cout << "Expected a token but found EOF" << endl;
+    else cout << "Analysis Incomplete - The EOF token was not found" << endl;
 }
 
-// MÉTODO COMPLETO
 void Parser::program(){
 
     switch (tok.tag){
@@ -70,8 +78,8 @@ void Parser::program(){
             eat('.');
             break;
 
-        // ERRO
         default:
+            // ERRO
             vector<int> v; v.push_back(Word::program.tag);
             Parser::error(v);
             break;
@@ -80,7 +88,6 @@ void Parser::program(){
 
 }
 
-// MÉTODOD COMPLETO
 void Parser::decllist(){
 
     Parser::decl();
@@ -97,7 +104,6 @@ void Parser::decllist(){
 
 }
 
-// MÉTODO COMPLETO
 void Parser::decl(){
 
     Parser::identlist();
@@ -106,7 +112,6 @@ void Parser::decl(){
 
 }
 
-// MÉTODOD COMPLETO
 void Parser::identlist(){
 
     eat(Tag::Type::ID);
@@ -121,22 +126,18 @@ void Parser::identlist(){
 
 }
 
-// MÉTODO COMPLETO
 void Parser::type(){
 
     switch (tok.tag){
 
-        // CASE INT
         case Tag::Type::INT: eat(Tag::Type::INT); break;
 
-        // CASE FLOAT
         case Tag::Type::FLOAT: eat(Tag::Type::FLOAT); break;
 
-        // CASE CHAR
         case Tag::Type::CHAR: eat(Tag::Type::CHAR); break;
 
-        // ERRO
         default:
+            // ERRO
             vector<int> v;
             v.push_back(Tag::Type::INT);
             v.push_back(Tag::Type::FLOAT);
@@ -148,7 +149,6 @@ void Parser::type(){
 
 }
 
-// MÉTODO COMPLETO
 void Parser::stmtlist(){
 
     Parser::stmt();
@@ -163,31 +163,24 @@ void Parser::stmtlist(){
 
 }
 
-// MÉTODO COMPLETO
 void Parser::stmt(){
 
     switch(tok.tag){
 
-        //CASE AASIGN-STMT
         case Tag::Type::ID: Parser::assignstmt(); break;
 
-        // CASE IF-STMT
         case Tag::Type::IF: Parser::ifstmtprime(); break;
 
-        // CASE WHILE-STMT
         case Tag::Type::WHILE: Parser::whilestmt(); break;
 
-        // CASE REPEAT-STMT
         case Tag::Type::REPEAT: Parser::repeatstmt(); break;
 
-        // CASE READ-STMT
         case Tag::Type::READ: Parser::readstmt(); break;
 
-        // CASE WRITE-STMT
         case Tag::Type::WRITE: Parser::writestmt(); break;
 
-        // ERRO
-        default: 
+        default:
+            // ERRO
             vector<int> v;
             v.push_back(Tag::Type::ID); v.push_back(Tag::Type::IF);
             v.push_back(Tag::Type::WHILE); v.push_back(Tag::Type::REPEAT);
@@ -199,7 +192,6 @@ void Parser::stmt(){
 
 }
 
-// MÉTODO COMPLETO
 void Parser::assignstmt(){
 
     Parser::eat(Tag::Type::ID);
@@ -208,7 +200,6 @@ void Parser::assignstmt(){
 
 }
 
-// MÉTODO COMPLETO
 void Parser::ifstmtprime(){
 
     Parser::eat(Tag::Type::IF);
@@ -219,7 +210,6 @@ void Parser::ifstmtprime(){
 
 }
 
-// MÉTODO COMPLETO
 void Parser::ifstmt(){
 
     switch(tok.tag){
@@ -235,6 +225,7 @@ void Parser::ifstmt(){
             break;
 
         default:
+            // ERRO
             vector<int> v;
             v.push_back(Tag::Type::END);
             v.push_back(Tag::Type::ELSE);
@@ -244,14 +235,12 @@ void Parser::ifstmt(){
     }
 }
 
-// MÉTODO COMPLETO
 void Parser::condition(){
 
-    Parser::expression();
+    Parser::expressionprime();
 
 }
 
-// MÉTODO COMPLETO
 void Parser::repeatstmt(){
 
     Parser::eat(Tag::Type::REPEAT);
@@ -260,7 +249,6 @@ void Parser::repeatstmt(){
 
 }
 
-// MÉTODO COMPLETO
 void Parser::stmtsuffix(){
 
     Parser::eat(Tag::Type::UNTIL);
@@ -268,7 +256,6 @@ void Parser::stmtsuffix(){
 
 }
 
-// MÉTODO COMPLETO
 void Parser::whilestmt(){
 
     Parser::stmtprefix();
@@ -277,7 +264,6 @@ void Parser::whilestmt(){
 
 }
 
-// MÉTODO COMPLETO
 void Parser::stmtprefix(){
 
     Parser::eat(Tag::Type::WHILE);
@@ -286,7 +272,6 @@ void Parser::stmtprefix(){
 
 }
 
-// MÉTODO COMPLETO
 void Parser::readstmt(){
 
     Parser::eat(Tag::Type::READ);
@@ -296,7 +281,6 @@ void Parser::readstmt(){
 
 }
 
-// MÉTODO COMPLETO
 void Parser::writestmt(){
 
     Parser::eat(Tag::Type::WRITE);
@@ -306,40 +290,30 @@ void Parser::writestmt(){
 
 }
 
-// MÉTODO COMPLETO - REVISAR
 void Parser::writable(){
 
     switch(tok.tag){
 
-        case '{':
-            Parser::eat('{');
-            while(__isascii(tok.tag) && tok.tag != 10) Parser::eat(tok.tag);
-            Parser::eat('}');
+        case Tag::Type::LITERAL:
+            Parser::eat(Tag::Type::LITERAL);
             break;
 
         case '!':
         case '-':
         case '(':
         case Tag::Type::ID:
-        case '\'':
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
+        case Tag::Type::NUM:
+        case Tag::Type::REAL:
+        case Tag::Type::CHAR_CONST:
             Parser::simpleexpr();
             break;
 
         default:
+            // ERRO
             vector<int> v;
-            v.push_back('{'); v.push_back('-');
-            v.push_back('!'); v.push_back('(');
-            v.push_back(Tag::Type::ID); v.push_back(Tag::Type::INT);
-            v.push_back(Tag::Type::CHAR_CONST); v.push_back(Tag::Type::FLOAT);
+            v.push_back('-'); v.push_back('!'); v.push_back('(');
+            v.push_back(Tag::Type::ID); v.push_back(Tag::Type::NUM); v.push_back(Tag::Type::LITERAL);
+            v.push_back(Tag::Type::CHAR_CONST); v.push_back(Tag::Type::REAL);
             Parser::error(v);
             break;
 
@@ -403,8 +377,8 @@ void Parser::termprime(){
 void Parser::factora(){
     switch(tok.tag){
         case Tag::Type::ID:
-        case Tag::Type::INT:
-        case Tag::Type::FLOAT:
+        case Tag::Type::NUM:
+        case Tag::Type::REAL:
         case Tag::Type::CHAR_CONST:
         case '(':
             Parser::factor();
@@ -420,7 +394,14 @@ void Parser::factora(){
             Parser::factor();
             break;
 
-        default: break; //ERRO -> Revisar
+        default:
+            // ERRO
+            vector<int> v;
+            v.push_back(Tag::Type::ID); v.push_back(Tag::Type::NUM); v.push_back(Tag::Type::REAL);
+            v.push_back(Tag::Type::CHAR_CONST); v.push_back('('); v.push_back('!');
+            v.push_back('-');
+            Parser::error(v);
+            break;
     }
 }
 
@@ -430,8 +411,8 @@ void Parser::factor(){
             Parser::eat(Tag::Type::ID);
             break;
 
-        case Tag::Type::INT:
-        case Tag::Type::FLOAT:
+        case Tag::Type::NUM:
+        case Tag::Type::REAL:
         case Tag::Type::CHAR_CONST:
             Parser::constant();
             break;
@@ -464,7 +445,14 @@ void Parser::relop(){
         case Tag::Type::NE:
             Parser::eat(Tag::Type::NE); break;
 
-        default: break; // ERRO -> Revisar
+        default:
+            // ERRO
+            vector<int> v;
+            v.push_back(Tag::Type::EQ); v.push_back(Tag::Type::GT);
+            v.push_back(Tag::Type::GE); v.push_back(Tag::Type::LT);
+            v.push_back(Tag::Type::LE); v.push_back(Tag::Type::NE);
+            Parser::error(v);
+            break;
     }
 }
 
@@ -479,7 +467,13 @@ void Parser::addop(){
         case Tag::Type::OR:
             Parser::eat(Tag::Type::OR); break;
 
-        default: break; // ERRO -> Revisar
+        default:
+            // ERRO
+            vector<int> v;
+            v.push_back('+'); v.push_back('-');
+            v.push_back(Tag::Type::OR);
+            Parser::error(v);
+            break;
     }
 }
 
@@ -494,21 +488,33 @@ void Parser::mulop(){
         case Tag::Type::AND:
             Parser::eat(Tag::Type::AND); break;
 
-        default: break; // ERRO -> Revisar
+        default:
+            // ERRO
+            vector<int> v;
+            v.push_back('*'); v.push_back('/');
+            v.push_back(Tag::Type::AND);
+            Parser::error(v);
+            break;
     }
 }
 
 void Parser::constant(){
     switch(tok.tag){
-        case Tag::Type::INT:
-            Parser::eat(Tag::Type::INT); break;
+        case Tag::Type::NUM:
+            Parser::eat(Tag::Type::NUM); break;
 
-        case Tag::Type::FLOAT:
-            Parser::eat(Tag::Type::FLOAT); break;
+        case Tag::Type::REAL:
+            Parser::eat(Tag::Type::REAL); break;
 
         case Tag::Type::CHAR_CONST:
             Parser::eat(Tag::Type::CHAR_CONST); break;
 
-        default: break; // ERRO -> Revisar
+        default:
+            // ERRO
+            vector<int> v;
+            v.push_back(Tag::Type::NUM); v.push_back(Tag::Type::REAL);
+            v.push_back(Tag::Type::CHAR_CONST);
+            Parser::error(v);
+            break;
     }
 }

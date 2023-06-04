@@ -14,21 +14,11 @@ int main(){
     // Instanciar o Analisador Lexico
     Lexer AnalisadorLexico;
 
-    // Chamando o Analisador Léxico até acabar o arquivo e printando os tokens encontrados
-    /*for(Token t; t.tag != Tag::Type::_EOF; t = AnalisadorLexico.scan()){
+    // Instanciar o Analisador Sintatico
+    Parser AnalisadorSintatico(&AnalisadorLexico);
 
-        // Checando se o arquivo fonte foi corretamente aberto
-        if(t.tag == Tag::Type::ERROR_TO_OPEN_FILE){
-            return 0;
-        }
-
-        // Checando se ocorrer algum erro léxico
-        if(t.tag == Tag::Type::LEXICAL_ERROR){
-            cout << "ENDING RUN DUE TO LEXICAL ERROR !!! " << endl;
-            return 0;
-        }
-
-    }*/
+    // Iniciando a execução do Compilador
+    AnalisadorSintatico.init();
 
     // Printando as palavras reservadas colocadas na Tabela de Simbolos
     /*cout << endl << "RESERVED WORDS IN THE SYMBOL TABLE:" << endl;
@@ -44,14 +34,6 @@ int main(){
 
     // Printando Fim da Leitura do Arquivo
     cout << endl << "LEXICAL ANALYSIS COMPLETE !!!" << endl;*/
-
-
-    // Testes Analisador Sintático
-
-    // Instanciar o Analisador Sintatico
-    Parser AnalisadorSintatico(&AnalisadorLexico);
-
-    AnalisadorSintatico.init();
 
     return 0;
 }
