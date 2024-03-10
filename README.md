@@ -1,3 +1,3 @@
-# Compiladores
+## Compiladores
 
-Projeto de um compilador para a disciplina de Compiladores do CEFET-MG
+This repository contains the project of a compiler developed by me during the Compilers subject from CEFET-MG.
